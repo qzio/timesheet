@@ -1,41 +1,65 @@
 require 'sinatra'
 require 'haml'
+require 'json'
 require './tracker'
 
-def stop_tracking
-  Tracker.stop_tracking( Time.now.to_i )
+class Time
+  def to_s
+   "#{self.year}-#{self.month}-#{self.day}" 
+  end
 end
 
-def start_tracking
-  Tracker.start_tracking( Time.now.to_i )
-end
+set :haml, :format => :html5
 
 def set_total
   @t = if params[:t]
-         d = params[:t].split("_")
+        d = params[:t].split("_")
         Time.new( d[0], d[1], d[2] )
       else
         Time.now
       end
   @total = Tracker.total_for @t
+  @total_str = "#{@t}:#{@total}"
 end
 
 before do
   @days = Tracker.other_days
 end
-get '/' do
-  set_total
-  haml :index
+
+def resp
+  @msg ||= "#{request.request_method} #{request.path_info}"
+  if request.path_info.eql? '/json'
+    content_type :json
+    {
+      :msg => @msg,
+      :total => "#{@total_str}",
+      :days => @days.collect{|d| "/json?t=#{d}"}
+    }.to_json+"\n"
+  elsif request.path_info.eql? '/txt'
+    content_type :text
+    "#{@msg}\n#{@t}:#{@total_str}\n"
+  else
+    haml :index
+  end
 end
 
-post '/' do
-  if @params[:cmd].eql?('start')
-    @msg = start_tracking
-  elsif @params[:cmd].eql?('stop')
-    @msg = stop_tracking
+['/', '/json', '/txt'].each do |path|
+  get path do
+    set_total
+    resp
   end
-  set_total
-  haml :index
+end
+
+['/', '/json', '/txt'].each do |path|
+  post path do
+    if params[:cmd].eql?('start')
+      @msg = Tracker.start_tracking Time.now.to_i
+    elsif params[:cmd].eql?('stop')
+      @msg = Tracker.stop_tracking Time.now.to_i
+    end
+    set_total
+    resp
+  end
 end
 
 
@@ -56,14 +80,12 @@ __END__
   =@msg
 .total
   total time tracked for
-  ="#{@t.year}/#{@t.month}/#{@t.day}"
-  ="( #{@total} )"
+  ="#{@t}: ( #{@total} )"
 %form{:method=>"post"}
-  %input{:type=>"submit", :name=>"start", :value=>"start"}
-  %input{:type=>"submit", :name=>"stop", :value=>"stop"}
+  %input{:type=>"submit", :name=>"cmd", :value=>"start"}
+  %input{:type=>"submit", :name=>"cmd", :value=>"stop"}
 
 %ul
 -@days.each do |d|
   %li
     ="<a href='/?t=#{d.gsub('.txt','').gsub('data/','')}'>#{d.gsub('.txt','')}</a>"
-
