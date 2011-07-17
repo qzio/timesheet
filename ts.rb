@@ -30,7 +30,7 @@ post "/", :provides => ["json", "html", "txt"] do
   if params[:cmd].eql?('start')
     status = Tracker.start
   elsif params[:cmd].eql?('stop')
-    status = Tracker.stop
+    status = Tracker.stop( params[:comment] )
   end
   case request.accept.first
   when "text/html"
