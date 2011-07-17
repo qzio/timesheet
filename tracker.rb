@@ -66,53 +66,6 @@ class Tracker
       return {:worked => time, :worked_hours => time.hours, :work_diff => (time - @@workday), :work_diff_hours => (time - @@workday).hours}
     end
 
-    def last_line
-      #last_line=""
-      #return last_line unless File.readable? self.file_name
-      #File.open( self.file_name, 'r' ).each_line do |line|
-        #last_line = line
-      #end
-      #last_line
-      return "start:1310892473"
-    end
-
-    def total_for t
-      #file = self.file_name t
-      #return 0 unless File.readable? file
-
-      #total = started = stopped = 0
-      #File.open( file, 'r' ).each_line do |line|
-        #s = line.split ":"
-        #if s.first.eql?("stop")
-          #if started > 0
-            #st = s[1].chomp.to_i
-            #total += (st - started)
-          #else
-          #end
-          #started = 0
-        #else
-          #started = s[1].chomp
-          #started = started.to_i
-        #end
-      #end
-      #min  = 60
-      #hour = (60*min)
-      #hours = total / hour
-      #mins = ( total - (hours * hour) ) / min
-      #"#{hours} hours and #{mins} mins (#{total}) seconds"
-      "2 hours and 23 mins (2333 s)"
-    end
-
-    def other_days
-      #d = []
-      #Dir.glob("data/*txt").each do |day|
-        #d << day.gsub('.txt','').gsub('data/','')
-      #end
-      #d
-      return []
-    end
-
-
   protected 
 
     def lock_clock
