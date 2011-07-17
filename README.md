@@ -4,9 +4,7 @@
  - stop tracker
  - grouped by day
  - no authentication
- - no text fields
  - no projects
- - no notes
 
 to get started:
 
