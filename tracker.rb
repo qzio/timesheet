@@ -72,7 +72,7 @@ class Tracker
       if locked?
         return false
       else
-        lock = File.new(@@lock_file, "w")
+        lock = File.new(@@lock_file, "w:utf-8")
         lock.puts Time.now.to_i
         lock.close
         return true
@@ -100,7 +100,7 @@ class Tracker
 
     def last_entry
       if File.exists?(@@data_file)
-        file = File.open(@@data_file, "r")
+        file = File.open(@@data_file)
         if entry = file.gets
           file.close
           return entry.split(",")
@@ -114,7 +114,7 @@ class Tracker
       if self.locked?
         last_entry = self.last_entry
         start_time = self.locked_at?
-        file = File.new(@@data_file, "a+")
+        file = File.new(@@data_file, "a+:utf-8")
         end_time = Time.now.to_i
         work_time = end_time - start_time
         file.puts("#{self.date_today}, #{start_time}, #{end_time}, #{comment}")
