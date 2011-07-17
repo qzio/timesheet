@@ -1,0 +1,12 @@
+%h1
+  Time Sheet
+.total
+  = "today: #{@summary[:worked_hours]}h left: #{@summary[:work_diff_hours]*-1}h"
+%form{:method=>"post"}
+  - if @running 
+    %input{:type=>"submit", :name=>"cmd", :value=>"start", :disabled => true}
+    %input{:type=>"submit", :name=>"cmd", :value=>"stop"}
+  - else
+    %input{:type=>"submit", :name=>"cmd", :value=>"start"}
+    %input{:type=>"submit", :name=>"cmd", :value=>"stop", :disabled => true}
+
