@@ -38,6 +38,6 @@ post "/", :provides => ["json", "html", "txt"] do
   when "application/json"
     status.to_json
   when "text/plain"
-    statis.to_s
+    status.to_s
   end
 end
