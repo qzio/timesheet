@@ -31,7 +31,7 @@ class Tracker
     end
 
     def today
-      return self.day(self.date_today)
+      return self.day(self.date_string)
     end
 
     def running?
@@ -56,7 +56,7 @@ class Tracker
 
     def summary(date=nil)
       if date.nil?
-        date = self.date_today
+        date = self.date_string
       end
       day = self.day(date)
       time = 0
@@ -117,15 +117,20 @@ class Tracker
         file = File.new(@@data_file, "a+:utf-8")
         end_time = Time.now.to_i
         work_time = end_time - start_time
-        file.puts("#{self.date_today}, #{start_time}, #{end_time}, #{comment}")
+        file.puts("#{self.date_string(start_time)}, #{start_time}, #{end_time}, #{comment}")
         file.close
         return true
       end
       return false
     end
 
-    def date_today
-      return Time.new.strftime("%Y-%m-%d")
+    def date_string(time=nil)
+      format="%Y-%m-%d"
+      if time.nil?
+        return Time.new.strftime(format)
+      else
+        return Time.at(time).strftime(format)
+      end
     end
 
   end
