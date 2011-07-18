@@ -1,0 +1,25 @@
+%a{:href => "/"}
+  Back
+%table
+  %thead
+    %tr
+      %td
+        Date
+      %td
+        Worked hours
+      %td
+        Diff
+  %tbody
+    - @history[:days].sort.each do |date, data|
+      %tr
+        %td
+          =date
+        %td
+          =data[:worked_hours]
+        %td
+          =data[:work_diff_hours]
+
+%strong
+  = "#{@history[:total_hours]}h"
+  = "#{@history[:total_diff_hours]}h"
+

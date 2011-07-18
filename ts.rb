@@ -22,9 +22,13 @@ get "/index" do
   end
 end
 
-#get "/history*", :provides => "json" do
-  #"json"
-#end
+get "/history" do
+  @history = Tracker.history
+  respond_to do |format|
+    format.json { @history.to_json}
+    format.html { haml :history}
+  end
+end
 
 #get "/history*", :provides => "html" do
   #"html"

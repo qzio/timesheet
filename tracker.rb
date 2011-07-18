@@ -73,6 +73,35 @@ class Tracker
       end
     end
 
+    def history
+      history = {}
+      return false unless File.exists? @@data_file
+      file = File.open(@@data_file)
+      file.each do |line|
+        date, start, stop, comment = line.split(",")
+        diff = stop.to_i - start.to_i
+        date = date.chomp
+        # Pure chaos! Embrace!
+        history[:days] = Hash.new unless history[:days].is_a?(Hash)
+        history[:days][date] = Hash.new if !history[:days][date].is_a?(Hash)
+        history[:days][date][:runs] = Array.new unless history[:days][date][:runs].is_a?(Array)
+        history[:days][date][:runs] << {:start => start.to_i, :stop => stop.to_i}
+        history[:days][date][:worked] = (history[:days][date][:worked] || 0) + (stop.to_i - start.to_i)
+        history[:days][date][:worked_hours] = history[:days][date][:worked].hours
+        history[:days][date][:work_diff] = history[:days][date][:worked] - @@workday
+        history[:days][date][:work_diff_hours] = history[:days][date][:work_diff].hours
+        history[:days][date][:comment] = Array.new unless history[:days][date][:comment].is_a?(Array)
+        history[:days][date][:comment] << comment.chomp
+      end
+      history[:days].each do |day, data|
+        history[:total] = (history[:total] || 0) + data[:worked]
+        history[:total_hours] = history[:total].hours
+        history[:total_diff] = (history[:total_diff] || 0) + data[:work_diff]
+        history[:total_diff_hours] = history[:total_diff].hours
+      end
+      return history
+    end
+
   protected 
 
     def lock_clock
