@@ -5,6 +5,7 @@
  - grouped by day
  - no authentication
  - no projects
+ - loads of juice!
 
 to get started:
 
