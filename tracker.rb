@@ -63,6 +63,9 @@ class Tracker
       day.each do |d|
         time += (d[2].to_i - d[1].to_i)
       end
+      if self.locked?
+        time += (Time.now.to_i - self.locked_at?)
+      end
       return {:worked => time, :worked_hours => time.hours, :work_diff => (time - @@workday), :work_diff_hours => (time - @@workday).hours}
     end
 
