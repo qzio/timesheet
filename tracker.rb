@@ -125,7 +125,7 @@ class Tracker
         file = File.new(@@data_file, "a+:utf-8")
         end_time = Time.now.to_i
         work_time = end_time - start_time
-        file.puts("#{self.date_string(start_time)}, #{start_time}, #{end_time}, #{comment}")
+        file.puts("#{self.date_string(start_time)}, #{start_time}, #{end_time}, \"#{comment}\"")
         file.close
         return true
       end
