@@ -39,7 +39,8 @@ class Tracker
     end
 
     def day(date)
-      file = File.open(@@data_file)
+      return false unless File.readable? @@data_file
+      file = File.new(@@data_file,"r:utf-8")
       today = Array.new
       file.each do |line|
         data_array = line.chomp.split(",")
@@ -58,15 +59,18 @@ class Tracker
       if date.nil?
         date = self.date_string
       end
-      day = self.day(date)
-      time = 0
-      day.each do |d|
-        time += (d[2].to_i - d[1].to_i)
+      if day = self.day(date)
+        time = 0
+        day.each do |d|
+          time += (d[2].to_i - d[1].to_i)
+        end
+        if self.locked?
+          time += (Time.now.to_i - self.locked_at?)
+        end
+        {:worked => time, :worked_hours => time.hours, :work_diff => (time - @@workday), :work_diff_hours => (time - @@workday).hours}
+      else
+        {:worked => 0, :worked_hours => 0, :work_diff => (0 - @@workday), :work_diff_hours => (0 - @@workday).hours}
       end
-      if self.locked?
-        time += (Time.now.to_i - self.locked_at?)
-      end
-      return {:worked => time, :worked_hours => time.hours, :work_diff => (time - @@workday), :work_diff_hours => (time - @@workday).hours}
     end
 
   protected 
@@ -95,6 +99,7 @@ class Tracker
     end
 
     def locked_at?
+      return false unless File.readable? @@lock_file
       file = File.open(@@lock_file);
       lock_time = file.readline
       file.close

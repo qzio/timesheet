@@ -6,11 +6,11 @@ PIDFILE=data/ts.pid
 case "$1" in
   start)
     echo "start tracking"
-    curl -X POST -F "cmd=start" localhost:4567/txt
+    curl -X POST -F "cmd=start" localhost:4567/index.text
     ;;
   stop)
     echo "stop tracking"
-    curl -X POST -F "cmd=stop" localhost:4567/txt
+    curl -X POST -F "cmd=stop" localhost:4567/index.text
     ;;
   startd)
     echo "starting daemon"

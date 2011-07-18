@@ -1,20 +1,25 @@
 require 'rubygems'
 require 'sinatra'
+require 'sinatra/respond_to'
 require 'haml'
 require 'json'
 require './tracker'
 
+Sinatra::Application.register Sinatra::RespondTo
 set :haml, :format => :html5
 
-get "/", :provides => "html" do
+get "/" do
+  redirect '/index'
+end
+get "/index" do
   @today = Tracker.today
   @summary = Tracker.summary
   @running = Tracker.running?
-  haml :index
-end
-
-get "/", :provides => "json" do
-  Tracker.summary.to_json
+  respond_to do |format|
+    format.html { haml :index }
+    format.json { @summary.to_json }
+    format.text { @summary.inspect }
+  end
 end
 
 #get "/history*", :provides => "json" do
@@ -25,19 +30,16 @@ end
   #"html"
 #end
 
-post "/", :provides => ["json", "html", "txt"] do
+post "/index" do
   status = "false"
   if params[:cmd].eql?('start')
     status = Tracker.start
   elsif params[:cmd].eql?('stop')
     status = Tracker.stop( params[:comment] )
   end
-  case request.accept.first
-  when "text/html"
-    redirect to("/")
-  when "application/json"
-    status.to_json
-  when "text/plain"
-    status.to_s
+  respond_to do |format|
+    format.html { redirect '/' }
+    format.json { {:status => status}.to_json }
+    format.text { {:status => status}.inspect }
   end
 end
