@@ -26,6 +26,11 @@ case "$1" in
       echo "did not find a pid file, unable to stop daemon"
     fi
     ;;
+  restartd)
+    echo "restarting daemon"
+    $0 stopd
+    $0 startd
+    ;;
   *)
     echo "USAGE: $0 start|stop|startd|stopd"
     exit 1
