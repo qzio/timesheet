@@ -12,7 +12,6 @@ get "/" do
   redirect '/index'
 end
 get "/index" do
-  @today = Tracker.today
   @summary = Tracker.summary
   @running = Tracker.running?
   respond_to do |format|

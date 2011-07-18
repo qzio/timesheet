@@ -43,12 +43,9 @@ class Tracker
       file = File.new(@@data_file,"r:utf-8")
       today = Array.new
       file.each do |line|
-        data_array = line.chomp.split(",")
-        if(data_array.first.chomp == date)
-          today << data_array
-        end
-        if(data_array.first.chomp != date)
-          break
+        data = line.chomp.split(",")
+        if(data.first == date)
+          today << data
         end
       end
       file.close
