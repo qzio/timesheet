@@ -1,5 +1,5 @@
-%a{:href => "/"}
-  Back
+%h1
+  History
 %table
   %thead
     %tr
@@ -22,4 +22,7 @@
 %strong
   = "#{@history[:total_hours]}h"
   = "#{@history[:total_diff_hours]}h"
+%br
 
+%a{:href => "/"}
+  Back
