@@ -12,6 +12,10 @@ case "$1" in
     echo "stop tracking"
     curl -X POST -F "cmd=stop" localhost:4567/index.text
     ;;
+  status)
+    echo "check status"
+    curl -X GET localhost:4567/index.text
+    ;;
   startd)
     echo "starting daemon"
     ruby ts.rb &> data/production.log &
