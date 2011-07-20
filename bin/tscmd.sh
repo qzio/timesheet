@@ -1,20 +1,21 @@
 #!/bin/bash
 
 PIDFILE=data/ts.pid
+PORT=1337
 
 
 case "$1" in
   start)
     echo "start tracking"
-    curl -X POST -F "cmd=start" localhost:4567/index.text
+    curl -X POST -F "cmd=start" localhost:$PORT/index.text
     ;;
   stop)
     echo "stop tracking"
-    curl -X POST -F "cmd=stop" localhost:4567/index.text
+    curl -X POST -F "cmd=stop" localhost:$PORT/index.text
     ;;
   status)
     echo "check status"
-    curl -X GET localhost:4567/index.text
+    curl -X GET localhost:$PORT/index.text
     ;;
   startd)
     echo "starting daemon"

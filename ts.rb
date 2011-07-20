@@ -8,6 +8,10 @@ require './tracker'
 Sinatra::Application.register Sinatra::RespondTo
 set :haml, :format => :html5
 
+configure do
+  set :port, 1337
+end
+
 get "/" do
   redirect '/index'
 end
