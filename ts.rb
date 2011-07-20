@@ -21,7 +21,7 @@ get "/index" do
   respond_to do |format|
     format.html { haml :index }
     format.json { @summary.to_json }
-    format.text { @summary.to_s }
+    format.text { @summary.inspect }
   end
 end
 
