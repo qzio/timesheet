@@ -2,10 +2,12 @@ require 'rubygems'
 require 'sinatra'
 require 'sinatra/respond_to'
 require 'haml'
+require 'sass'
 require 'json'
 require './tracker'
 
 Sinatra::Application.register Sinatra::RespondTo
+
 set :haml, :format => :html5
 
 configure do
@@ -53,5 +55,12 @@ post "/index" do
     format.html { redirect '/' }
     format.json { response.to_json }
     format.text { response.inspect }
+    format.txt { response.inspect }
+  end
+end
+
+get '/master' do
+  respond_to do |format|
+    format.css { sass :master  }
   end
 end
