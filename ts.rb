@@ -40,13 +40,18 @@ end
 post "/index" do
   status = "false"
   if params[:cmd].eql?('start')
+    error = "Already running" if Tracker.running?
     status = Tracker.start
   elsif params[:cmd].eql?('stop')
+    error = "Not started" unless Tracker.running?
     status = Tracker.stop( params[:comment] )
   end
+  status = status ? "ok" : "error"
+  response = { :status => status }
+  response[:error] = error if error
   respond_to do |format|
     format.html { redirect '/' }
-    format.json { {:status => status}.to_json }
-    format.text { {:status => status}.inspect }
+    format.json { response.to_json }
+    format.text { response.inspect }
   end
 end
