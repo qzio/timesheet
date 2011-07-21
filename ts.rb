@@ -15,6 +15,7 @@ end
 get "/" do
   redirect '/index'
 end
+
 get "/index" do
   @summary = Tracker.summary
   @running = Tracker.running?
@@ -32,10 +33,6 @@ get "/history" do
     format.html { haml :history}
   end
 end
-
-#get "/history*", :provides => "html" do
-  #"html"
-#end
 
 post "/index" do
   status = "false"
