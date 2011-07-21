@@ -23,6 +23,7 @@ get "/index" do
     format.html { haml :index }
     format.json { @summary.to_json }
     format.text { @summary.inspect }
+    format.txt { @summary.inspect }
   end
 end
 
@@ -31,6 +32,8 @@ get "/history" do
   respond_to do |format|
     format.json { @history.to_json}
     format.html { haml :history}
+    format.text { @history.inspect }
+    format.txt { @history.inspect }
   end
 end
 
