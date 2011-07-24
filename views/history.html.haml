@@ -18,6 +18,8 @@
           =data[:worked_hours]
         %td
           =data[:work_diff_hours]
+        %td
+          =data[:comments].join(", ")
 
 %strong
   = "#{@history[:total_hours]}h"

@@ -87,8 +87,8 @@ class Tracker
         history[:days][date][:worked_hours] = history[:days][date][:worked].hours
         history[:days][date][:work_diff] = history[:days][date][:worked] - @@workday
         history[:days][date][:work_diff_hours] = history[:days][date][:work_diff].hours
-        history[:days][date][:comment] = Array.new unless history[:days][date][:comment].is_a?(Array)
-        history[:days][date][:comment] << comment.chomp
+        history[:days][date][:comments] = Array.new unless history[:days][date][:comments].is_a?(Array)
+        history[:days][date][:comments] << comment.chomp
       end
       history[:days].each do |day, data|
         history[:total] = (history[:total] || 0) + data[:worked]
