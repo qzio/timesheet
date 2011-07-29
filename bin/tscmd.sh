@@ -11,7 +11,7 @@ case "$1" in
     ;;
   stop)
     echo "stop tracking"
-    curl -X POST -F "cmd=stop" localhost:$PORT/index.text
+    curl -X POST -F "cmd=stop&comment=$2" localhost:$PORT/index.text
     ;;
   status)
     echo "check status"
