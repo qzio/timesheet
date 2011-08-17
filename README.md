@@ -15,7 +15,9 @@ to get started:
     ruby ts.rb
 
 
-visit http://localhost:4567 , or use something like curl
+visit http://localhost:1337, or use the startup script
 
-    curl -X POST -F "cmd=start" localhost:4567
-    curl -X POST -F "cmd=stop" localhost:4567
+    bin/tscmd.sh startd - start daemon
+    bin/tscmd.sh stopd  - stop daemon
+    bin/tscmd.sh start  - start timer
+    bin/tscmd.sh stop   - stop timer
