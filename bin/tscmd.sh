@@ -1,6 +1,6 @@
 #!/bin/bash
 
-PIDFILE=data/ts.pid
+PIDFILE=$(dirname $0)/../data/ts.pid
 PORT=1337
 
 
@@ -19,7 +19,7 @@ case "$1" in
     ;;
   startd)
     echo "starting daemon"
-    ruby ts.rb &> data/production.log &
+    ruby ts.rb &> $(dirname $0)/../data/production.log &
     echo $! > $PIDFILE
     ;;
   stopd)
