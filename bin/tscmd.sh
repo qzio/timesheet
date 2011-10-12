@@ -19,7 +19,7 @@ case "$1" in
     ;;
   startd)
     echo "starting daemon"
-    ruby ts.rb &> $(dirname $0)/../data/production.log &
+    ruby app.rb &> $(dirname $0)/../data/production.log &
     echo $! > $PIDFILE
     ;;
   stopd)
