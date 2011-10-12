@@ -6,19 +6,19 @@ PORT=1337
 
 case "$1" in
   start)
-    echo "start tracking"
+    echo "Start tracking"
     curl -X POST -F "cmd=start" localhost:$PORT/index.text
     ;;
   stop)
-    echo "stop tracking"
+    echo "Stop tracking"
     curl -X POST -F "cmd=stop" -F "comment=$2" localhost:$PORT/index.text
     ;;
   status)
-    echo "check status"
+    echo "Check status"
     curl -X GET localhost:$PORT/index.text
     ;;
   startd)
-    echo "starting daemon"
+    echo "Starting daemon"
     ruby app.rb &> $(dirname $0)/../data/production.log &
     echo $! > $PIDFILE
     ;;
@@ -28,11 +28,11 @@ case "$1" in
       kill `cat $PIDFILE`
       rm $PIDFILE
     else
-      echo "did not find a pid file, unable to stop daemon"
+      echo "Did not find a PID file, unable to stop daemon"
     fi
     ;;
   restartd)
-    echo "restarting daemon"
+    echo "Restarting daemon"
     $0 stopd
     $0 startd
     ;;
