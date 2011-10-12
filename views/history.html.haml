@@ -1,29 +1,29 @@
 %h1
   History
-%table
-  %thead
-    %tr
-      %td
-        Date
-      %td
-        Worked hours
-      %td
-        Diff
+= "<span class=\"light\">Total:</span> #{@history[:total_hours]}h / <span class=\"light\">Diff:</span> #{@history[:total_diff_hours]}h"
+%table.history
   %tbody
-    - @history[:days].sort.each do |date, data|
+    - date = nil
+    - @history[:days].each do |date, data|
       %tr
-        %td
+        %td{:colspan => 3,:class => "date"}
           =date
-        %td
-          =data[:worked_hours]
-        %td
-          =data[:work_diff_hours]
-        %td
-          =data[:comments].join(", ")
+      - data[:runs].each do |run|
+        %tr
+          %td
+            %span.start
+              =run[:start]
+            \-
+            %span.stop
+              =run[:stop]
+          %td
+            =run[:comment]
+          %td
+            //%a{:href=>"/edit/#{run[:id]}"}
+            //  Edit
+      - date = data[:date]
 
 %strong
-  = "#{@history[:total_hours]}h"
-  = "#{@history[:total_diff_hours]}h"
 %br
 
 %a{:href => "/"}
