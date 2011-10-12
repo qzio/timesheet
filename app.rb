@@ -6,7 +6,6 @@ require 'sass'
 require 'json'
 require './tracker'
 
-Sinatra::Application.register Sinatra::RespondTo
 
 class Timesheet < Sinatra::Base
 
