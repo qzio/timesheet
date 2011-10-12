@@ -71,24 +71,40 @@ class Tracker
     end
 
     def history
-      history = {}
+      history = Hash.new
+      meta = Hash.new
       return false unless File.exists? @@data_file
       file = File.open(@@data_file)
-      file.each do |line|
+
+      days = Array.new
+      file.each_with_index do |line, i|
+
         date, start, stop, comment = line.split(",")
+
+        # How long is the session
         diff = stop.to_i - start.to_i
-        date = date.chomp
+
+        # Clean-up
+        %w{date start stop comment}.each do |clean|
+          clean.chomp!
+        end
+
+        # Since we have the date we only need hour, minute and second
+        start_s = Time.at(start.to_i).strftime("%H:%M:%S")
+        stop_s = Time.at(stop.to_i).strftime("%H:%M:%S")
+
+        # Remove the quotes
+        comment.gsub!(/"/, '')
+
         # Pure chaos! Embrace!
         history[:days] = Hash.new unless history[:days].is_a?(Hash)
         history[:days][date] = Hash.new if !history[:days][date].is_a?(Hash)
         history[:days][date][:runs] = Array.new unless history[:days][date][:runs].is_a?(Array)
-        history[:days][date][:runs] << {:start => start.to_i, :stop => stop.to_i}
+        history[:days][date][:runs] << {:start => start_s, :stop => stop_s, :comment => comment, :id => i}
         history[:days][date][:worked] = (history[:days][date][:worked] || 0) + (stop.to_i - start.to_i)
         history[:days][date][:worked_hours] = history[:days][date][:worked].hours
         history[:days][date][:work_diff] = history[:days][date][:worked] - @@workday
         history[:days][date][:work_diff_hours] = history[:days][date][:work_diff].hours
-        history[:days][date][:comments] = Array.new unless history[:days][date][:comments].is_a?(Array)
-        history[:days][date][:comments] << comment.chomp
       end
       history[:days].each do |day, data|
         history[:total] = (history[:total] || 0) + data[:worked]
@@ -96,6 +112,7 @@ class Tracker
         history[:total_diff] = (history[:total_diff] || 0) + data[:work_diff]
         history[:total_diff_hours] = history[:total_diff].hours
       end
+      history[:days] = history[:days].sort
       return history
     end
 
