@@ -1,5 +1,5 @@
 require 'rubygems'
-require 'sinatra'
+require 'sinatra/base'
 require 'sinatra/respond_to'
 require 'haml'
 require 'sass'
@@ -66,6 +66,8 @@ class Timesheet < Sinatra::Base
     end
   end
 
-  run! if app_file == $0
+end
 
+if __FILE__ == $0
+  Timesheet.run!
 end
