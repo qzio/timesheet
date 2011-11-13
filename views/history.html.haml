@@ -8,6 +8,8 @@
       %tr
         %td{:colspan => 3,:class => "date"}
           =date
+          %small.light
+            = "( #{data[:worked_hours]}h )"
       - data[:runs].each do |run|
         %tr
           %td
