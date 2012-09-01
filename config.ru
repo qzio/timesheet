@@ -1,3 +1,3 @@
-$: << File.dirname(__FILE__)
-require "app.rb"
+require "sinatra"
+require "./app.rb"
 run Timesheet
