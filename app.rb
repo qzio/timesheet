@@ -1,3 +1,4 @@
+$: << File.dirname(__FILE__)
 require 'sinatra'
 require 'sinatra/base'
 require 'sinatra/respond_with'
@@ -5,7 +6,7 @@ require 'sinatra/reloader' if development?
 require 'haml'
 require 'sass'
 require 'json'
-require './tracker'
+require 'tracker.rb'
 
 class Timesheet < Sinatra::Base
 

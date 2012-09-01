@@ -1,26 +1,27 @@
 #!/bin/bash
 
 PIDFILE=$(dirname $0)/../data/ts.pid
+HOST=127.0.0.1
 PORT=1337
+RACK_ENV="production"
 
 
 case "$1" in
   start)
     echo "Start tracking"
-    curl -X POST -F "cmd=start" localhost:$PORT/index.text
+    curl -X POST -F "cmd=start" $HOST:$PORT/index.json
     ;;
   stop)
     echo "Stop tracking"
-    curl -X POST -F "cmd=stop" -F "comment=$2" localhost:$PORT/index.text
+    curl -X POST -F "cmd=stop" -F "comment=$2" $HOST:$PORT/index.json
     ;;
   status)
     echo "Check status"
-    curl -X GET localhost:$PORT/index.text
+    curl -X GET $HOST:$PORT/index.txt
     ;;
   startd)
     echo "Starting daemon"
-    ruby app.rb -p $PORT &> $(dirname $0)/../data/production.log &
-    echo $! > $PIDFILE
+    rackup -D -o $HOST -p $PORT -P $PIDFILE $(dirname $0)/../config.ru #&> $(dirname $0)/../data/production.log &
     ;;
   stopd)
     echo "stopping daemon"
