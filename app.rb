@@ -29,10 +29,12 @@ class Timesheet < Sinatra::Base
   end
 
   get "/" do
-    redirect '/index'
+    redirect to("/timer")
   end
 
-  get "/index.?:format?" do
+
+  get "/timer?.?:format?" do
+    @active_tab = "index"
     @summary = Tracker.summary
     @running = Tracker.running?
     respond_to do |format|
@@ -42,16 +44,7 @@ class Timesheet < Sinatra::Base
     end
   end
 
-  get "/history.?:format?" do
-    @history = Tracker.history
-    respond_to do |format|
-      format.json { @history.to_json}
-      format.html { haml :history}
-      format.txt { @history.inspect }
-    end
-  end
-
-  post "/index.?:format?" do
+  post "/timer.?:format?" do
     status = "false"
     if params[:cmd].eql?('start')
       error = "Already running" if Tracker.running?
@@ -70,9 +63,18 @@ class Timesheet < Sinatra::Base
     end
   end
 
-  get '/master.css', :provides => [:css] do
+  get "/history.?:format?" do
+    @history = Tracker.history
     respond_to do |format|
-      format.css { sass :master  }
+      format.json { @history.to_json}
+      format.html { haml :history}
+      format.txt { @history.inspect }
+    end
+  end
+
+  get '/css/custom.css', :provides => [:css] do
+    respond_to do |format|
+      format.css { sass :custom }
     end
  end
 

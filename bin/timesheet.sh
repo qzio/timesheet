@@ -9,11 +9,11 @@ RACK_ENV="production"
 case "$1" in
   start)
     echo "Start tracking"
-    curl -X POST -F "cmd=start" $HOST:$PORT/index.json
+    curl -X POST -F "cmd=start" $HOST:$PORT/timer.json
     ;;
   stop)
     echo "Stop tracking"
-    curl -X POST -F "cmd=stop" -F "comment=$2" $HOST:$PORT/index.json
+    curl -X POST -F "cmd=stop" -F "comment=$2" $HOST:$PORT/timer.json
     ;;
   status)
     echo "Check status"

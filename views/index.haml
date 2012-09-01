@@ -1,30 +1,15 @@
-%h1
-  Timesheet
-
-%form{:method=>"post"}
-  - if @running 
-    %input{:type=>"hidden", :name=>"cmd", :value=>"stop"}
-    %label{:for => "comment"}
-      Comment
-    %input{:type=>"text", :name => "comment"}
-    %input{:type=>"submit", :value=>"Stop timer", :class => "cupid-blue"}
-  - else
-    %input{:type => "hidden", :name => "cmd", :value => "start"}
-    %input{:value=> "Start timer", :type=> "submit", :class => "cupid-blue"}
-
-.total
+%h3
   %span.light
-    Today:
+    Worked today:
   = @summary[:worked_hours]
   h
 
-  - if( @summary[:work_diff_hours] > 0 )
-    %span.light
-      Overtime:
+%form{:method=>"post", :class=>"form form-inline"}
+  - if @running 
+    %input{:type=>"hidden", :name=>"cmd", :value=>"stop"}
+    %input{:type=>"text", :name => "comment", :placeholder => "Add a comment", :class=>"comment input-xlarge"}
+    %input{:type=>"submit", :value=>"Stop timer", :class => "btn btn-danger btn-large"}
   - else
-    %span.light
-      Left:
-  = "#{@summary[:work_diff_hours]} h"
+    %input{:type => "hidden", :name => "cmd", :value => "start"}
+    %input{:value=> "Start timer", :type=> "submit", :class => "btn btn-primary btn-large"}
 
-%a{:href => "/history"}
-  History

@@ -1,12 +1,11 @@
-%h1
-  History
-= "<span class=\"light\">Total:</span> #{@history[:total_hours]}h / <span class=\"light\">Diff:</span> #{@history[:total_diff_hours]}h"
-%table.history
+%h3
+  = "<span class=\"light\">Total:</span> #{@history[:total_hours]}h / <span class=\"light\">Diff:</span> #{@history[:total_diff_hours]}h"
+%table.table.table-bordered
   %tbody
     - date = nil
     - @history[:days].each do |date, data|
-      %tr
-        %td{:colspan => 3,:class => "date"}
+      %tr.date
+        %td{:colspan => 2,:class=>"date"}
           =date
           %small.light
             = "( #{data[:worked_hours]}h )"
@@ -20,13 +19,4 @@
               =run[:stop]
           %td
             =run[:comment]
-          %td
-            //%a{:href=>"/edit/#{run[:id]}"}
-            //  Edit
       - date = data[:date]
-
-%strong
-%br
-
-%a{:href => "/"}
-  Back
