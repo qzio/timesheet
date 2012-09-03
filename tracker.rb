@@ -8,11 +8,13 @@ end
 
 class Tracker
 
+  @root = File.expand_path(File.dirname(__FILE__))
+
   # Time lock
-  @@lock_file = "data/clock.lock"
+  @@lock_file = "#{@root}/data/clock.lock"
 
   # Database
-  @@data_file = "data/timetracker.db"
+  @@data_file = "#{@root}/data/timetracker.db"
 
   # Workday in seconds
   @@workday = 28800
